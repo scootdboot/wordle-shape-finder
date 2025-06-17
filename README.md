@@ -1,18 +1,3 @@
-## Getting Started
+## Wordle Shape Finder
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+This program contains code to find sequences of words you can enter into NYT Wordle to create a shape with the emojis from your result. Some parts of this program support larger numbers of rows and longer words but unintended behavior may occur when using lengths longer or shorter than 5 character words and 6 row shapes.
