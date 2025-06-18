@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class Shape {
     private final Row[] shapeArray;
@@ -28,6 +31,26 @@ public class Shape {
 
     public Row[] getRowArray() {
         return shapeArray;
+    }
+
+    public Set<Row> getOptimizedSet() {
+        List<Row> uniqueValues = new ArrayList<Row>();
+        // loop through each row
+        for (Row r : shapeArray) {
+            boolean unique = true;
+            // loop through everything already checked and make sure its unique
+            for (Row uniqueR : uniqueValues) {
+                // if it isn't unique, set the flag to false
+                if (r.equals(uniqueR)) {
+                    unique = false;
+                }
+            }
+
+            if (unique) {
+                uniqueValues.add(r);
+            }
+        }
+        return Set.copyOf(uniqueValues);
     }
 
     /**

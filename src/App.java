@@ -1,3 +1,5 @@
+import java.util.Set;
+
 public class App {
     public static void main(String[] args) throws Exception {
         // System.out.println(Color.fromText("⬛️").isPresent());
@@ -8,9 +10,10 @@ public class App {
         // System.out.println(wordList.getWords().get().get(4999));
         // System.out.println(wordList.getWords().get().get(14853));
 
-        // String shapeString = "_G_Y_\nGGG__\nGGG__\nGGG_Y\nGGGGG\n_____";
-        // Shape shape = new Shape(shapeString);
-        // Row[] rowArray = shape.getRowArray();
-        // System.out.println();
+        String shapeString = "_G_Y_\nGGG__\nGGG__\nGGG_Y\nGGGGG\n_____";
+        Shape shape = new Shape(shapeString);
+        Row[] rowArray = shape.getRowArray();
+        Set<Row> optimizedSet = shape.getOptimizedSet();
+        System.out.println();
     }
 }

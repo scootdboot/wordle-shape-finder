@@ -13,11 +13,16 @@ public class Row {
         return colorArray.length;
     }
 
-    public boolean equals(Row other) {
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Row)) {
+            return false;
+        }
         if (other.equals(null)) {
             return false;
         }
-        Color[] otherColorArray = other.asArray();
+        Row otherRow = (Row) other;
+        Color[] otherColorArray = otherRow.asArray();
         if (colorArray.length != otherColorArray.length) {
             return false;
         }
