@@ -1,10 +1,22 @@
 import java.util.Optional;
 
 public class Shape {
+    public final Color[][] shapeArray;
+
     // remember that you should validate array and make sure
     // it's rectangular and 5 wide!
     public Shape(Color[][] shape, int width, int height) throws InvalidShapeException {
+        // validate array given
+        if (shape.length != height) {
+            throw new InvalidShapeException("Discrepant height provided");
+        }
+        for (Color[] row : shape) {
+            if (row.length != width) {
+                throw new InvalidShapeException("One or more rows has an invalid width");
+            }
+        }
 
+        shapeArray = shape;
     }
 
     public Shape(Color[][] shape) throws InvalidShapeException {
@@ -23,7 +35,7 @@ public class Shape {
             String shapeString, 
             int width, 
             int height) throws InvalidShapeException {
-        final int rowCharacterCount = width * 2;
+        final int rowCharacterCount = width;
 
         // validation, ensure string is formatted correctly
         String[] rows = shapeString.split("\n");
@@ -36,6 +48,7 @@ public class Shape {
             }
         }
         
+        // go through emoji by emoji and parse them into Colors
         Color[][] rtn = new Color[height][width];
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
