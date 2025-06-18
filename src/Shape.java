@@ -1,74 +1,74 @@
 import java.util.Optional;
 
 public class Shape {
-    public final Color[][] shapeArray;
+    private final Row[] shapeArray;
 
-    // remember that you should validate array and make sure
-    // it's rectangular and 5 wide!
-    public Shape(Color[][] shape, int width, int height) throws InvalidShapeException {
-        // validate array given
-        if (shape.length != height) {
-            throw new InvalidShapeException("Discrepant height provided");
+    // i don't really like this naming convention for parameter vs instance
+    // but i can't think of anything better
+    public Shape(Row[] shapeArray) throws InvalidShapeException {
+        if (shapeArray.length < 1) {
+            throw new InvalidShapeException("Empty array passed to constructor");
         }
-        for (Color[] row : shape) {
-            if (row.length != width) {
-                throw new InvalidShapeException("One or more rows has an invalid width");
-            }
-        }
-
-        shapeArray = shape;
-    }
-
-    public Shape(Color[][] shape) throws InvalidShapeException {
-        this(shape, 5, 6);
-    }
-
-    public Shape(String shapeString, int width, int height) throws InvalidShapeException {
-        this(shapeStringToArray(shapeString, width, height), width, height);
-    }
-
-    public Shape(String shapeString) throws InvalidShapeException {
-        this(shapeStringToArray(shapeString, 5, 6), 5, 6);
-    }
-
-    private static Color[][] shapeStringToArray(
-            String shapeString, 
-            int width, 
-            int height) throws InvalidShapeException {
-        // validation, ensure string is formatted correctly
-        String[] rows = shapeString.split("\n");
-        if (rows.length != height) {
-            throw new InvalidShapeException("Incorrect number of rows");
-        }
-        for (String row : rows) {
-            if (row.length() != width) {
-                throw new InvalidShapeException("Incorrect number of characters in one or more rows");
-            }
-        }
-        
-        // go through emoji by emoji and parse them into Colors
-        Color[][] rtn = new Color[height][width];
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                char currentChar = rows[row].charAt(col);
-                Optional<Color> currentColorOptional = Color.fromCharacter(currentChar);
-                if (currentColorOptional.isEmpty()) {
-                    throw new InvalidShapeException("Invalid character present in String");
+        int rowWidth = shapeArray[0].getLength();
+        // if there's only one row, we don't need to check width is consistent
+        if (shapeArray.length != 1) {
+            for (Row row : shapeArray) {
+                if (row.getLength() != rowWidth) {
+                    throw new InvalidShapeException("Inconsistent row width in Shape");
                 }
-                Color currentColor = currentColorOptional.get();
-                rtn[row][col] = currentColor;
             }
         }
 
-        return rtn;
+        this.shapeArray = shapeArray;
+    }
+
+    public Shape(String shapeArrayString) throws InvalidShapeException {
+        this(stringToRowArray(shapeArrayString));
+    }
+
+    public Row[] getRowArray() {
+        return shapeArray;
     }
 
     /**
-     * Returns a clone of the shape array as to make sure you don't modify it
-     * @return A clone of the shape array
+     * @param shapeArrayString Array representing the Shape you would like to create using ASCII characters
+     * @return An array of Rows that represents the Shape that the shapeArrayString passed represented
+     * @throws InvalidShapeException
      */
-    public Color[][] getColorArray() {
-        return shapeArray.clone();
+    public static Row[] stringToRowArray(String shapeArrayString) throws InvalidShapeException {
+        String[] stringRows = shapeArrayString.split("\n");
+        if (stringRows.length == 0) {
+            throw new InvalidShapeException("String with 0 rows somehow attempted to be processed");
+        }
+        int width = stringRows[0].length();
+        // if there is more than one row, go through and check they are all the same length
+        if (stringRows.length > 1) {
+            for (int i = 1; i < stringRows.length; i++) {
+                if (stringRows[i].length() != width) { 
+                    throw new InvalidShapeException("Inconsistent row width attempted to be processed");
+                }
+            }
+        }
+
+        // go through each ascii character in each String and convert to a Color, put in a row
+        Row[] rtn = new Row[stringRows.length];
+        // iterate through each row
+        for (int rowIndex = 0; rowIndex < stringRows.length; rowIndex++) {
+            char[] rowChars = stringRows[rowIndex].toCharArray();
+            Color[] convertedColors = new Color[rowChars.length]; // convertedColors will have same length as rowChars
+            // iterate through each character of each row
+            for (int colIndex = 0; colIndex < rowChars.length; colIndex++) {
+                Optional<Color> colorOptional = Color.fromCharacter(rowChars[colIndex]);
+                if (colorOptional.isEmpty()) {
+                    throw new InvalidShapeException("Invalid character attempted to be processed");
+                }
+                convertedColors[colIndex] = colorOptional.get();
+            }
+            Row currentRow = new Row(convertedColors);
+            rtn[rowIndex] = currentRow;
+        }
+
+        return rtn;
     }
 
     public static class InvalidShapeException extends Exception {

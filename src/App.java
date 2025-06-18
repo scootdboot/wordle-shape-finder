@@ -8,9 +8,9 @@ public class App {
         // System.out.println(wordList.getWords().get().get(4999));
         // System.out.println(wordList.getWords().get().get(14853));
 
-        String shapeString = "_G_Y_\nGGG__\nGGG__\nGGG_Y\nGGGGG\n_____";
-        Shape shape = new Shape(shapeString);
-        Color[][] shapeArray = shape.getColorArray();
-        System.out.println("balls");
+        // String shapeString = "_G_Y_\nGGG__\nGGG__\nGGG_Y\nGGGGG\n_____";
+        // Shape shape = new Shape(shapeString);
+        // Row[] rowArray = shape.getRowArray();
+        // System.out.println();
     }
 }
