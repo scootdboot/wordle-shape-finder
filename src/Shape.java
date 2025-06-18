@@ -35,15 +35,13 @@ public class Shape {
             String shapeString, 
             int width, 
             int height) throws InvalidShapeException {
-        final int rowCharacterCount = width;
-
         // validation, ensure string is formatted correctly
         String[] rows = shapeString.split("\n");
         if (rows.length != height) {
             throw new InvalidShapeException("Incorrect number of rows");
         }
         for (String row : rows) {
-            if (row.length() != rowCharacterCount) {
+            if (row.length() != width) {
                 throw new InvalidShapeException("Incorrect number of characters in one or more rows");
             }
         }
@@ -52,8 +50,8 @@ public class Shape {
         Color[][] rtn = new Color[height][width];
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                String currentString = rows[row].substring(col * 2, col * 2 + 2);
-                Optional<Color> currentColorOptional = Color.fromText(currentString);
+                char currentChar = rows[row].charAt(col);
+                Optional<Color> currentColorOptional = Color.fromCharacter(currentChar);
                 if (currentColorOptional.isEmpty()) {
                     throw new InvalidShapeException("Invalid character present in String");
                 }
@@ -63,6 +61,14 @@ public class Shape {
         }
 
         return rtn;
+    }
+
+    /**
+     * Returns a clone of the shape array as to make sure you don't modify it
+     * @return A clone of the shape array
+     */
+    public Color[][] getColorArray() {
+        return shapeArray.clone();
     }
 
     public static class InvalidShapeException extends Exception {
