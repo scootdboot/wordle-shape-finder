@@ -39,14 +39,6 @@ public class WordList {
         return words;
     }
 
-    public ArrayList<String> getWords() throws WordRetrievalError {
-        if (m_words.isEmpty()) {
-            throw new WordRetrievalError("No valid word list found");
-        }
-
-        return m_words.get();
-    }
-
     public String getWord(int index) throws WordRetrievalError {
         if (m_words.isEmpty()) {
             throw new WordRetrievalError("No valid word list found");
