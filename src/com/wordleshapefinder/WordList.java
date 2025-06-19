@@ -39,20 +39,20 @@ public class WordList {
         return words;
     }
 
-    public String getWord(int index) throws WordRetrievalError {
+    public String getWord(int index) throws WordRetrievalException {
         if (m_words.isEmpty()) {
-            throw new WordRetrievalError("No valid word list found");
+            throw new WordRetrievalException("No valid word list found");
         }
 
         try {
             return m_words.get().get(index);
         } catch (Exception e) {
-            throw new WordRetrievalError("Failed to retrieve given index from word list");
+            throw new WordRetrievalException("Failed to retrieve given index from word list");
         }
     }
 
-    public static class WordRetrievalError extends Exception {
-        public WordRetrievalError(String m) {
+    public static class WordRetrievalException extends Exception {
+        public WordRetrievalException(String m) {
             super(m);
         }
     }
