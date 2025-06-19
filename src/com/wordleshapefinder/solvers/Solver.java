@@ -7,7 +7,7 @@ import com.wordleshapefinder.shapeutils.Row;
 import com.wordleshapefinder.shapeutils.Shape;
 
 /**
- * This is an interface for Solvers to ensure that creating a Solver that functions differently
+ * This is an abstract class for Solvers to ensure that creating a Solver that functions differently
  *  and implementing it is minimally complicated.
  */
 public abstract class Solver {
