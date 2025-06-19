@@ -25,7 +25,7 @@ public class WordList {
         }
     }
 
-    private ArrayList<String> extractWords(String fileName) throws Exception {
+    public ArrayList<String> extractWords(String fileName) throws Exception {
         // this can throw an exception if the fileName is wrong
         fileReader = new BufferedReader(new FileReader(fileName));
 
@@ -39,7 +39,29 @@ public class WordList {
         return words;
     }
 
-    public Optional<ArrayList<String>> getWords() {
-        return m_words;
+    public ArrayList<String> getWords() throws WordRetrievalError {
+        if (m_words.isEmpty()) {
+            throw new WordRetrievalError("No valid word list found");
+        }
+
+        return m_words.get();
+    }
+
+    public String getWord(int index) throws WordRetrievalError {
+        if (m_words.isEmpty()) {
+            throw new WordRetrievalError("No valid word list found");
+        }
+
+        try {
+            return m_words.get().get(index);
+        } catch (Exception e) {
+            throw new WordRetrievalError("Failed to retrieve given index from word list");
+        }
+    }
+
+    public static class WordRetrievalError extends Exception {
+        public WordRetrievalError(String m) {
+            super(m);
+        }
     }
 }
