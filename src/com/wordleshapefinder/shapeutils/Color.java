@@ -1,3 +1,5 @@
+package com.wordleshapefinder.shapeutils;
+
 import java.util.Optional;
 
 public enum Color {

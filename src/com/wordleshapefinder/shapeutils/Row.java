@@ -1,3 +1,5 @@
+package com.wordleshapefinder.shapeutils;
+
 public class Row {
     private final Color[] colorArray;
 
