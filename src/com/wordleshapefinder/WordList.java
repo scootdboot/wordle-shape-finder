@@ -51,6 +51,13 @@ public class WordList {
         }
     }
 
+    public int getListLength() throws WordRetrievalException {
+        if (m_words.isEmpty()) {
+            throw new WordRetrievalException("No valid word list found");
+        }
+        return m_words.get().size();
+    }
+
     public static class WordRetrievalException extends Exception {
         public WordRetrievalException(String m) {
             super(m);
