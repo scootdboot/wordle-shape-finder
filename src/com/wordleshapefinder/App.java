@@ -11,9 +11,9 @@ public class App {
         // System.out.println(Color.fromText("⬛️").get().textRepresentation);
 
         WordList wordList = new WordList("Words.txt");
-        System.out.println(wordList.getWords().get(0));
-        System.out.println(wordList.getWords().get(4999));
-        System.out.println(wordList.getWords().get(14853));
+        System.out.println(wordList.getWord(0));
+        System.out.println(wordList.getWord(4999));
+        System.out.println(wordList.getWord(14853));
 
         String shapeString = "_G_Y_\nGGG__\nGGG__\nGGG_Y\nGGGGG\n_____";
         Shape shape = new Shape(shapeString);
