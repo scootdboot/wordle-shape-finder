@@ -7,4 +7,11 @@ public class ArrayUtilities {
         }
         return false;
     }
+
+    public static int getFirstOccuranceIndex(char[] array, char c) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == c) { return i; }
+        }
+        return -1;
+    }
 }
