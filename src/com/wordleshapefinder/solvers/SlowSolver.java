@@ -31,7 +31,7 @@ public class SlowSolver extends Solver {
     }
 
     public void updateSolutionWord(String newSolutionWord) {
-        solutionWord = newSolutionWord;
+        solutionWord = newSolutionWord.toUpperCase();
         solutionWordArray = solutionWord.toCharArray();
     }
 

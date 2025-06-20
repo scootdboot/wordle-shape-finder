@@ -32,7 +32,7 @@ public class WordList {
         ArrayList<String> words = new ArrayList<>();
         String line;
         while ((line = fileReader.readLine()) != null) {
-            words.add(line);
+            words.add(line.toUpperCase());
         }
 
         fileReader.close();
