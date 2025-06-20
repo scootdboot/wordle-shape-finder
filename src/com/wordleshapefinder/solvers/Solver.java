@@ -3,6 +3,7 @@ package com.wordleshapefinder.solvers;
 import java.util.Optional;
 
 import com.wordleshapefinder.WordList;
+import com.wordleshapefinder.WordList.WordRetrievalException;
 import com.wordleshapefinder.shapeutils.Row;
 import com.wordleshapefinder.shapeutils.Shape;
 
@@ -13,9 +14,16 @@ import com.wordleshapefinder.shapeutils.Shape;
 public abstract class Solver {
     public abstract void intakeWordList(WordList wordList);
 
-    public abstract Optional<String> findWord(Row row);
+    public abstract void updateSolutionWord(String solutionWord);
 
-    public Optional<String[]> findShape(Shape shape) {
+    public abstract Optional<String> findWord(Row row) throws WordRetrievalException;
+
+    public Optional<String> findWord(Row row, String solutionWord) throws WordRetrievalException {
+        updateSolutionWord(solutionWord);
+        return findWord(row);
+    }
+
+    public Optional<String[]> findShape(Shape shape) throws WordRetrievalException {
         Row[] shapeRowArray = shape.getRowArray();
         String[] potentialRtn = new String[shapeRowArray.length];
         // loop through each row and add it to the final array if a solution is found
