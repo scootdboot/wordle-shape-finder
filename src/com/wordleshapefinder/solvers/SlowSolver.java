@@ -6,6 +6,7 @@ import com.wordleshapefinder.WordList;
 import com.wordleshapefinder.WordList.WordRetrievalException;
 import com.wordleshapefinder.shapeutils.Color;
 import com.wordleshapefinder.shapeutils.Row;
+import com.wordleshapefinder.utils.ArrayUtilities;
 
 public class SlowSolver extends Solver {
     private WordList wordList;
@@ -40,6 +41,9 @@ public class SlowSolver extends Solver {
      */
     public Optional<String> findWord(Row row) throws WordRetrievalException {
         Color[] colorArray = row.asArray();
+        if (colorArray.length != solutionWord.length()) {
+            
+        }
         int wordCount = wordList.getListLength();
 
         for (int wordNum = 0; wordNum < wordCount; wordNum++) {
@@ -48,24 +52,69 @@ public class SlowSolver extends Solver {
             if (colorArray.length != currentWord.length()) {
                 continue;
             }
-            // check for shape grays that are word greens
-            boolean invalidGrays = false;
-            for (int charNum = 0; charNum < currentWord.length(); charNum++) {
-                // if gray color desired and current matches solution, invalid current word
-                if (colorArray[charNum] == Color.GRAY && currentWord.charAt(charNum) == solutionWordArray[charNum]) {
-                    invalidGrays = true;
+            if (solutionWord.length() != colorArray.length) {
+                continue;
+            }
+            
+            boolean mismatch = false; // this flag should go true when a mismatch occurs and early return
+            char[] solutionClone = solutionWordArray.clone();
+            // -- SCORE GREENS --
+            for (int charNum = 0; charNum < colorArray.length; charNum++) {
+                // we only want to handle greens at this part, if something isn't a green just go to the next char
+                if (colorArray[charNum] != Color.GREEN) {
+                    continue;
+                }
+
+                char currentChar = currentWord.charAt(charNum);
+                if (currentChar == solutionClone[charNum]) {
+                    solutionClone[charNum] = ' ';
+                } else {
+                    mismatch = true;
+                    break;
                 }
             }
-            // if there are intended grays where there are verifiable greens we can skip the rest of this word
-            if (invalidGrays) { continue; }
+            // if mismatch, don't check this word further, go to next word
+            if (mismatch) { continue; }
 
-            // we will now score this word as normal
-            char[] solutionWordArrayClone = solutionWordArray.clone();
-            Color[] score = new Color[currentWord.length()];
-            // check and remove greens
-            for (int charNum = 0; charNum < currentWord.length(); charNum++) {
-                
+            // -- SCORE YELLOWS --
+            for (int charNum = 0; charNum < colorArray.length; charNum++) {
+                if (colorArray[charNum] != Color.YELLOW) {
+                    continue;
+                }
+
+                char currentChar = currentWord.charAt(charNum);
+                // only if both of these are true we should qualify this as properly scoring yellow
+                if (currentChar != solutionClone[charNum] && ArrayUtilities.charArrayContains(solutionClone, currentChar)) {
+                    solutionClone[ArrayUtilities.getFirstOccuranceIndex(solutionClone, currentChar)] = ' ';
+                } else {
+                    mismatch = true;
+                    break;
+                }
             }
+            if (mismatch) { continue; }
+
+            // -- SCORE GRAYS --
+            for (int charNum = 0; charNum < colorArray.length; charNum++) {
+                if (colorArray[charNum] != Color.GRAY) {
+                    continue;
+                }
+
+                char currentChar = currentWord.charAt(charNum);
+                // as long as it's not in the solutionClone, it has to be gray
+                if (!ArrayUtilities.charArrayContains(solutionClone, currentChar)) {
+                    // nothing specific has to happen here
+                } else {
+                    mismatch = true;
+                    break;
+                }
+            }
+            if (mismatch) { continue; }
+
+            // if we get all the way here, the currentWord is a solution
+            return Optional.of(currentWord);
         }
+
+        // if we get out of this for loop, there is no solution
+        return Optional.empty();
     }
 }
