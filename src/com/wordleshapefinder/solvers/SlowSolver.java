@@ -17,13 +17,14 @@ public class SlowSolver extends Solver {
      * 
      * @param wordList
      */
-    public SlowSolver(WordList wordList) {
+    public SlowSolver(WordList wordList, String solutionWord) {
         intakeWordList(wordList);
+        updateSolutionWord(solutionWord);
     }
 
     /**
      * Updates the WordList for the solver to use
-     * @param newWordList
+     * @param newWordList New WordList object for the solver to use
      */
     public void intakeWordList(WordList newWordList) {
         wordList = newWordList;
@@ -35,14 +36,21 @@ public class SlowSolver extends Solver {
     }
 
     /**
+     * This method finds a solution that fits the given Row from the previously given WordList using 
+     *  the previously given solution word
      * 
      * @param row
      * @return 
      */
     public Optional<String> findWord(Row row) throws WordRetrievalException {
         Color[] colorArray = row.asArray();
+        if (solutionWord == null) {
+            throw new WordRetrievalException("null solution word");
+        }
         if (colorArray.length != solutionWord.length()) {
-            
+            // there is literally no way for a solution to be found but i'm not sure
+            // if this should be an error or handled properly
+            return Optional.empty();
         }
         int wordCount = wordList.getListLength();
 
