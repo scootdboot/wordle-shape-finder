@@ -12,9 +12,9 @@ import com.wordleshapefinder.shapeutils.Shape;
  *  and implementing it is minimally complicated.
  */
 public abstract class Solver {
-    public abstract void intakeWordList(WordList wordList);
+    public abstract void intakeWordList(WordList newWordList);
 
-    public abstract void updateSolutionWord(String solutionWord);
+    public abstract void updateSolutionWord(String newSolutionWord);
 
     public abstract Optional<String> findWord(Row row) throws WordRetrievalException;
 
