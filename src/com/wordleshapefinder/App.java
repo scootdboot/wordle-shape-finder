@@ -30,7 +30,7 @@ public class App {
         // System.out.println(wordList.getWord(4999));
         // System.out.println(wordList.getWord(14853));
 
-        String shapeString = "_____\n_Y_Y_\n_Y_Y_\n_____\nG___G\nGGGGG";
+        String shapeString = "YYYYY\nY_Y_Y\nY_Y_Y\nYYYYY\nGGGGG";
         Shape shape = new Shape(shapeString);
         ScorerSolver scorerSolver = new ScorerSolver(wordList, "PLAIN");
         Optional<String[]> correctlyScoringWordArrayOptional = scorerSolver.findShape(shape);
@@ -42,7 +42,5 @@ public class App {
         } else {
             System.out.println("no available shape");
         }
-        System.out.println("daflkjdsalfkj");
-
     }
 }
